@@ -1,0 +1,15 @@
+{
+  "name": "tessel_weather_station",
+  "version": "0.0.1",
+  "description": "Tessel Weather Station project",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "www.github.com/johnwargo/tessel_weather_station",
+  "keywords": [
+    "Tessel", "weather"
+  ],
+  "license": "MIT",
+  "readme": "A Tessel-based weather station that uploads to Weather Underground."
+}
