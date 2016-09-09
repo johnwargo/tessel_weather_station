@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tessel Garage Door Controller</title>
-    <meta name="description" content="Tessel Garage Door Controller">
+    <title>Tessel Weather Station</title>
+    <meta name="description" content="Tessel Weather Station">
     <meta name="author" content="John M. Wargo">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -13,6 +13,7 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/sticky-footer-navbar.css">
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
@@ -27,31 +28,27 @@
     <script src="https://cdn.jsdelivr.net/sweetalert2/4.2.6/sweetalert2.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/4.2.6/sweetalert2.min.css">
 </head>
-<body>
+<body onload="updatePage()">
 <div class="container">
     <div class="page-header">
-        <h1>Tessel Garage Door Controller</h1>
+        <h1>Tessel Weather Station</h1>
     </div>
-    <p>Tap or click the 'Push Garage Door Button' button below to 'push' the remote garage door button. The app doesn't know anything about the current position of the door (up or down), so all it can do is push the button remotely and hope for the best.</p>
-    <p><a class="btn btn-primary btn-lg" href="#" role="button" onclick="pushRemoteButton()">Push Garage Door Button</a></p>
+    <h2>Local Readings</h2>
+    <p>Current local temperature and humidity readings:</p>
+    <p><strong>Temperature:</strong> <span id="temp"></span></p>
+    <p><strong>Humidity:</strong> <span id="humidity"></span></p>
+    <p><strong>Timestamp:</strong> <span id="timestamp"></span></p>
+    <div id="forecast">
+        <h2>Forecast</h2>
+        <div id="ForecastContent"></div>
+    </div>
 </div>
-
-<script type="text/javascript">
-    function pushRemoteButton() {
-        // Create a new XHR for communicating requests to the Tessel device
-        var req = new XMLHttpRequest();
-        req.open('GET', '/gdb');
-        // Once the request gets a successful response, update the user.
-        req.onload = function (e) {
-            if (req.readyState == 4 && req.status == 200) {
-                swal('Success', 'The garage door button was pushed\n(as far as this app can tell).', 'success')
-            } else {
-                console.log('Error', e); // If something went wrong, log that event to the console.
-                swal('Error', e, 'error')
-            }
-        }
-        req.send(); // Send our request to the server
-    }
-</script>
+<footer class="footer">
+    <div class="container">
+        <p class="text-muted">Project created by <a href="http://www.johnwargo.com" target="_blank">John M. Wargo</a>.</p>
+    </div>
+</footer>
+<script src="js/config.js"></script>
+<script src="js/index.js"></script>
 </body>
 </html>
