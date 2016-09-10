@@ -1,7 +1,13 @@
 "use strict";
 
+var weatherData = {};
+
 function updatePage() {
+  //Update the text on the page
   updateWeatherData();
+  //Now draw the gauges
+  renderGauges();
+  //And finally grab the forecast from Weather Underground
   updateForecast();
 }
 
@@ -12,7 +18,9 @@ function updateWeatherData() {
   // Once the request gets a successful response, update the user.
   req.onload = function (e) {
     if (req.readyState == 4 && req.status == 200) {
-      // Update the main page with weather data
+      //Store the values for later use
+      weatherData = req.data;
+      //Update the main page with weather data
 
     } else {
       // If something went wrong, log that event to the console.
@@ -24,6 +32,38 @@ function updateWeatherData() {
   }
   // Send our request to the server
   req.send();
+}
+
+function renderGauges(t_val, h_val, p_val) {
+  console.log("Entering renderGauges");
+  // first do the temp gauge
+  var g_temp = new JustGage({
+    id: "temp",
+    value: t_val,
+    min: -20,
+    max: 120,
+    title: "Temperature (F)",
+    customSectors: [{
+      color: "#0000ff",
+      lo: -20,
+      hi: 55
+    }, {
+      color: "#ff0000",
+      lo: 55,
+      hi: 120
+    }]
+  });
+
+  //Now humidity
+  var g_humidity = new JustGage({
+    id: "humidity",
+    value: h_val,
+    min: 0,
+    max: 100,
+    title: "Humidity (%)",
+    levelColorsGradient: true
+  });
+  console.log("Leaving renderGauges")
 }
 
 function updateForecast(key, zip) {

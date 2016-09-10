@@ -27,6 +27,9 @@
     <!--Sweet Alert files-->
     <script src="https://cdn.jsdelivr.net/sweetalert2/4.2.6/sweetalert2.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/4.2.6/sweetalert2.min.css">
+    <!--Gauges support -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.1/raphael.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/justgage/1.2.2/justgage.min.js"></script>
 </head>
 <body onload="updatePage()">
 <div class="container">
@@ -38,6 +41,15 @@
     <p><strong>Temperature:</strong> <span id="temp"></span></p>
     <p><strong>Humidity:</strong> <span id="humidity"></span></p>
     <p><strong>Timestamp:</strong> <span id="timestamp"></span></p>
+    <div>
+        <div class="col-md-6">
+            <div id="temp" style="width:300px; height:300px"></div>
+        </div>
+        <div class="col-md-6">
+            <div id="humidity" style="width:300px; height:300px"></div>
+        </div>
+    </div>
+    <hr />
     <div id="forecast">
         <h2>Forecast</h2>
         <div id="ForecastContent"></div>
