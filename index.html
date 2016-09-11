@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <link rel="stylesheet" href="css/sticky-footer-navbar.css">
-    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
@@ -24,29 +24,24 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <!--Sweet Alert files-->
-    <script src="https://cdn.jsdelivr.net/sweetalert2/4.2.6/sweetalert2.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/4.2.6/sweetalert2.min.css">
-    <!--Gauges support -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.1/raphael.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/justgage/1.2.2/justgage.min.js"></script>
 </head>
-<body onload="updatePage()">
+<body onload="getWeatherData()">
 <div class="container">
     <div class="page-header">
         <h1>Tessel Weather Station</h1>
     </div>
     <h2>Local Readings</h2>
-    <p>Current local temperature and humidity readings:</p>
-    <p><strong>Temperature:</strong> <span id="temp"></span></p>
-    <p><strong>Humidity:</strong> <span id="humidity"></span></p>
-    <p><strong>Timestamp:</strong> <span id="timestamp"></span></p>
-    <div>
+    <ul>
+        <li><strong>Temperature:</strong> <span id="temp"></span> degrees F</li>
+        <li><strong>Humidity:</strong> <span id="humidity"></span>%</li>
+        <li><strong>Timestamp:</strong> <span id="timestamp"></span></li>
+    </ul>
+    <div id="graphs">
         <div class="col-md-6">
-            <div id="temp" style="width:300px; height:300px"></div>
+            <div id="g_temp" style="width:300px; height:300px"></div>
         </div>
         <div class="col-md-6">
-            <div id="humidity" style="width:300px; height:300px"></div>
+            <div id="g_humidity" style="width:300px; height:300px"></div>
         </div>
     </div>
     <hr />
@@ -60,6 +55,15 @@
         <p class="text-muted">Project created by <a href="http://www.johnwargo.com" target="_blank">John M. Wargo</a>.</p>
     </div>
 </footer>
+<!--Sweet Alert files-->
+<script src="https://cdn.jsdelivr.net/sweetalert2/4.2.6/sweetalert2.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/4.2.6/sweetalert2.min.css">
+<!--Gauges support -->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.1/raphael.min.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/justgage/1.2.2/justgage.min.js"></script>-->
+<script src="js/raphael-2.1.4.min.js"></script>
+<script src="js/justgage.js"></script>
+<!-- finally, this app's custom JavaScript files -->
 <script src="js/config.js"></script>
 <script src="js/index.js"></script>
 </body>

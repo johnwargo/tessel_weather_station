@@ -40,20 +40,46 @@ Install the climate module's software library using the following command:
 
 Software Installation
 -------------------- 
-Copy the project's source code to a folder on your development system. Configure Weather Underground settings:
+Copy the project's source code to a folder on your development system. Within the project are two configuration files that will need to be updated for the application to run correctly:
 
-	## Weather Underground Settings
++ `config.js` - The configuration file for the server application.
++ `/js/config.js` - The configuration file for the client-side application.
 
-Next, open a terminal window and navigate to the folder where you copied the files.
+To configure the server application, open the project folder's `config.js` file, you'll find the following content in the file:
 
-Connect the Tessel to your development system using a USB cable and test the server process using the following command:
+	const Config = {
+	    WU_STATION_ID: '',
+	    WU_STATION_KEY: ''
+	} 
+
+Populate the `WU_STATION_ID` and `WU_STATION_KEY` values with the Station ID and Station Key values you created when you created your own Weather Underground weather station earlier in the installation process. Save your changes to this file before continuing.
+
+Next, open the `/js/config.js` file, you'll find the following contents in the file:
+
+	const Config = {
+	    GET_FORECAST: true,
+	    SHOW_GAUGES: true,
+	    WU_API_KEY: '',
+	    ZIP_CODE: '44313'
+	}
+
+You can control whether the client-side web application displays temperature and humidity gauges by setting `SHOW_GAUGES` to `true` or `false`. You can also control whether the local forecast is displayed in the client-side web application by setting `GET_FORECAST` to `true` or `false`. When `GET_FORECAST` is `true`, you'll also need to populate the file with a value for the `ZIP_CODE` and `WU_API_KEY` properties. The `WU_API_KEY` value is the value you generated when you registered for Weather Underground API access earlier in the installation process. Save your changes to this file before continuing.
+
+Next, open a terminal window and navigate to the folder where you copied the files. Connect the Tessel to your development system using a USB cable and test the server process using the following command:
 
 	t2 run server.js 
 
 The application should load and display the following output:
 
 	INFO Looking for your Tessel...
-	POPULATE WITH ACTUAL OUTPUT	
+	INFO Connected to tessel-ws.
+	INFO Building project.
+	INFO Writing project to RAM on tessel-ws (159.232 kB)...
+	INFO Deployed.
+	INFO Running server.js...
+	Server running at http://192.168.1.51:8080/
+	Connected to climate module
+	Degrees: 84.2 F Humidity: 39.3% RH
 
 **Note:** *In this example, I'd renamed my Tessel device to 'tessel-ws' (for 'Tessel Weather Station'), your output will properly reflect the name of your Tessel device, not mine.* 
 
@@ -63,7 +89,17 @@ At this point, you can open your browser of choice and navigate to the URL provi
 
 ![Tessel Weather Station Web Application](http://johnwargo.com/files/tessel-weather_station-web-app-640.png)
 
-You can also check that the data has been uploaded to Weather Underground using the station URL Weather Underground provides.  
+You can also check that the data has been uploaded to Weather Underground using the station URL Weather Underground provides.
+
+When the web application runs, the server application console output will look like the following:
+
+	Serving /index.html
+	Serving /css/sticky-footer-navbar.css
+	Serving /js/raphael-2.1.4.min.js
+	Serving /js/justgage.js
+	Serving /js/config_server.js
+	Serving /js/index.js
+	Processing /get_data request  
 
 Deployment
 ---------------------
