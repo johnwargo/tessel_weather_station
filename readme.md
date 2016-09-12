@@ -85,12 +85,13 @@ The application should load and display the following output:
 	INFO Looking for your Tessel...
 	INFO Connected to tessel-ws.
 	INFO Building project.
-	INFO Writing project to RAM on tessel-ws (159.232 kB)...
+	INFO Writing project to RAM on tessel-ws (157.696 kB)...
 	INFO Deployed.
 	INFO Running server.js...
 	Server running at http://192.168.1.51:8080/
+	
 	Connected to climate module
-	Degrees: 84.2 F Humidity: 39.3% RH
+	Last minute: 58
 
 **Note:** *In this example, I'd renamed my Tessel device to 'tessel-ws' (for 'Tessel Weather Station'), your output will properly reflect the name of your Tessel device, not mine.* 
 
