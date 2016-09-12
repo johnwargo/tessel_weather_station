@@ -98,7 +98,7 @@ Testing
 ---------------------
 At this point, you can open your browser of choice and navigate to the URL provided in the listed output (http://192.168.1.51:8080 in this example) to access the web application included with this project (shown below).
 
-![Tessel Weather Station Web Application](http://johnwargo.com/files/tessel-weather_station-web-app-640.png)
+![Tessel Weather Station Web Application](http://johnwargo.com/files/tessel_weather_station_dashboard-640.png)
 
 You can also check that the data has been uploaded to Weather Underground using the station URL Weather Underground provides.
 
