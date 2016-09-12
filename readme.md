@@ -100,6 +100,8 @@ At this point, you can open your browser of choice and navigate to the URL provi
 
 ![Tessel Weather Station Web Application](http://johnwargo.com/files/tessel_weather_station_dashboard-640.png)
 
+Depending on how you have the application configured, you should see the temperature measurements, a graphical gauge for temperature and humidity plus the forecast from Weather Underground (not shown). 
+
 You can also check that the data has been uploaded to Weather Underground using the station URL Weather Underground provides.
 
 Deployment
