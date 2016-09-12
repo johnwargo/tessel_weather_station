@@ -11,6 +11,7 @@
 const ACTIVITY_LED = 3;
 //Change MODULE_PORT to B id your temperature module is plugged into the Tessel's port B
 const MODULE_PORT = 'A';
+// how frequently data is uploaded to Weather Underground
 const UPLOAD_INTERVAL = 10; //minute(s)
 // Weather Underground constants
 const WU_URL = 'http://weatherstation.wunderground.com/weatherstation/updateweatherstation.php?';
@@ -62,11 +63,12 @@ if (Config.WU_STATION_ID === '' || Config.WU_STATION_KEY === '') {
 
 // Initialize the web server
 var server = http.createServer(function (request, response) {
+  var timestamp = new Date().toString();
   // Break up the request url into easier-to-use parts
   var urlParts = url.parse(request.url, true);
   //is the request /get_data? then return the last measurements object
   if (urlParts.path == '/get_data') {
-    console.log('Processing /get_data request');
+    console.log(timestamp, 'Processing /get_data request');
     //Write the JSON header to the response
     response.writeHead(200, {"Content-Type": "application/json"});
     //Then send the lastData object with the response
@@ -84,17 +86,16 @@ var server = http.createServer(function (request, response) {
     fs.exists(filePath, function (exists) {
       if (exists) {
         //Then serve the file
-        console.log("Serving %s", reqPath);
+        console.log(timestamp, "Serving", reqPath);
         //We have the file, so go get it
         var mimeType = mimeTypes[path.extname(reqPath).split(".")[1]];
-        //console.log('MIME type: %s', mimeType);
         response.writeHead(200, {'Content-Type': mimeType});
         //Read the file
         var fileStream = fs.createReadStream(filePath);
         //and pipe it into the response object
         fileStream.pipe(response);
       } else {
-        console.warn("File '%s' does not exist", reqPath);
+        console.warn(timestamp, "File '%s' does not exist", reqPath);
         response.writeHead(404, {'Content-Type': 'text/plain'});
         response.write('404: Resource not found\n');
         response.write('Request path: ' + reqPath);
@@ -109,6 +110,8 @@ var server = http.createServer(function (request, response) {
 server.listen(8080);
 
 //Log the IP address we're listening on
+//This assumed the wireless LAN (wlan0) port is being used.
+//If wired or something else, be sure to change the code below
 var ipAddr = os.networkInterfaces().wlan0[0].address;
 console.log('Server running at http://' + ipAddr + ':8080/');
 
@@ -118,8 +121,10 @@ console.log('Server running at http://' + ipAddr + ':8080/');
 climate.on('ready', function () {
   console.log('\nConnected to climate module');
 
-  //get current minute minus 1
-  var lastMin = new Date().getMinutes() - 1;
+  //Get the current timestamp
+  var timestamp = new Date();
+  //Now, get the current minute minus 1
+  var lastMin = timestamp.getMinutes() - 1;
   // if less than 0, set to 59. This forces a measurement to be taken at the start every time
   lastMin = (lastMin < 0) ? 59 : lastMin;
   console.log('Last minute: %s\n', lastMin);
@@ -129,17 +134,16 @@ climate.on('ready', function () {
     var currentMin = new Date().getMinutes();
     //has the minute changed? We'll take a measurement every minute
     if (currentMin != lastMin) {
-      //Reset out lastMin variable
+      //Reset our lastMin variable
       lastMin = currentMin;
       //Turn on the activity LED
       tessel.led[ACTIVITY_LED].on();
       //Read the temperature from the climate module
       climate.readTemperature('f', function (err, temp) {
+        //store the timestamp
+        lastData.timestamp = timestamp.toString();
         //Store the result for access elsewhere
         lastData.temp = parseFloat(temp.toFixed(1));
-        //get the timestamp
-        lastData.timestamp = new Date().toString();
-        console.log(lastData.timestamp);
         //Now read the humidity
         climate.readHumidity(function (err, humid) {
           //Store the result for access elsewhere
@@ -147,12 +151,13 @@ climate.on('ready', function () {
           //Turn off the activity LED
           tessel.led[ACTIVITY_LED].off();
           //Write the results to the console
-          console.log('Degrees:', temp.toFixed(1) + ' F', 'Humidity:', humid.toFixed(1) + '% RH');
-          //Is it time to upload?
-          if (currentMin < 1 || currentMin % UPLOAD_INTERVAL == 0) {
-            //should we be uploading data to Weather Underground?
-            if (Config.WU_UPLOAD) {
+          console.log(timestamp.toString(), 'Degrees:', temp.toFixed(1) + ' F', 'Humidity:', humid.toFixed(1) + '% RH');
+          //should we be uploading data to Weather Underground?
+          if (Config.WU_UPLOAD) {
+            //Is it time to upload?
+            if (currentMin < 1 || currentMin % UPLOAD_INTERVAL == 0) {
               //upload the data to Weather Underground
+              console.log('Sending data to Weather Underground');
               //Build our data 'package'
               var wuData = {
                 "action": "updateraw",
@@ -162,10 +167,8 @@ climate.on('ready', function () {
                 "humidity": humid,
                 "tempf": temp
               }
-              //Convert the object into URL format
+              //Convert the wuData object into URL format
               var dataPath = querystring.stringify(wuData);
-              // console.log(dataPath);
-              console.log('Sending data to Weather Underground');
               http.get(WU_URL + dataPath, function (res) {
                 // body will contain the final response
                 var body = '';
@@ -191,4 +194,3 @@ climate.on('ready', function () {
     setTimeout(loop, 1000);
   });
 });
-
