@@ -49,8 +49,8 @@ To configure the server application, open the project folder's `config.js` file,
 
 	const Config = {
 		WU_UPLOAD: true,
-	    WU_STATION_ID: '',
-	    WU_STATION_KEY: ''
+	    WU_STATION_ID: 'YOUR_STATION_ID',
+	    WU_STATION_KEY: 'YOUR_STATION_KEY'
 	} 
 
 The `WU_UPLOAD` property controls whether the server application uploads data to Weather Underground. Change `WU_UPLOAD` from `true` to `false` to disable this feature. Populate the `WU_STATION_ID` and `WU_STATION_KEY` values with the Station ID and Station Key values you created when you created your own Weather Underground weather station earlier in the installation process. Save your changes to this file before continuing.
@@ -70,7 +70,7 @@ The client-side web application's behavior is controlled by the contents of the 
 	const Config = {
 	    GET_FORECAST: true,
 	    SHOW_GAUGES: true,
-	    WU_API_KEY: '',
+	    WU_API_KEY: 'YOUR_API_KEY',
 	    ZIP_CODE: '44313'
 	}
 
