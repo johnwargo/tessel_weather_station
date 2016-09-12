@@ -65,6 +65,14 @@ Next, open the `/js/config.js` file, you'll find the following contents in the f
 
 You can control whether the client-side web application displays temperature and humidity gauges by setting `SHOW_GAUGES` to `true` or `false`. You can also control whether the local forecast is displayed in the client-side web application by setting `GET_FORECAST` to `true` or `false`. When `GET_FORECAST` is `true`, you'll also need to populate the file with a value for the `ZIP_CODE` and `WU_API_KEY` properties. The `WU_API_KEY` value is the value you generated when you registered for Weather Underground API access earlier in the installation process. Save your changes to this file before continuing.
 
+### Describe the app configuration options as well:
+
+	// use the blue LED when showing activity, change to 2 for green LED
+	const ACTIVITY_LED = 3;
+	//Change MODULE_PORT to B id your temperature module is plugged into the Tessel's port B
+	const MODULE_PORT = 'A';
+	const UPLOAD_INTERVAL = 10; //minute(s)
+
 Next, open a terminal window and navigate to the folder where you copied the files. Connect the Tessel to your development system using a USB cable and test the server process using the following command:
 
 	t2 run server.js 
@@ -113,7 +121,9 @@ Known Issues
 ---------------------
 On startup, the Tessel board will automatically attempt a connection to the last Wi-Fi access point it used. Unfortunately, if it cannot connect to that access point, it will not try again. So, if the device isn't working as expected, and you think it's the network connection, you'll need to remove power from the Tessel board then reconnect it to let it try the Wi-Fi connection again.
 
-The device's IP address is assigned by your network router; if you replace your router, or get a new ISP, the network settings on the device may change. If this happens, or if you suspect this has happend, you'll need to use the `T2 run server.js` command to execute the server.js command interactively to see what IP address the device is using then change your browser shortcut accordingly.  
+The device's IP address is assigned by your network router; if you replace your router, or get a new ISP, the network settings on the device may change. If this happens, or if you suspect this has happend, you'll need to use the `T2 run server.js` command to execute the server.js command interactively to see what IP address the device is using then change your browser shortcut accordingly.
+
+The Tessel doesn't have a real-time clock (RTC), so there's no guarantee that the temp upload will happen on the correct minute interval. The Tessel board's clock is set to the development system's clock when code is pushed to the device, but run running stand-alone, it might not have the right time. 
 
 Revision History
 ---------------------
