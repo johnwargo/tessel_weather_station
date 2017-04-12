@@ -99,7 +99,7 @@ Testing
 ---------------------
 At this point, you can open your browser of choice and navigate to the URL provided in the listed output (http://192.168.1.51:8080 in this example) to access the web application included with this project (shown below).
 
-![Tessel Weather Station Web Application](http://johnwargo.com/files/tessel_weather_station_dashboard-640.png)
+![Tessel Weather Station Web Application](images/tessel_weather_station_dashboard-640.png)
 
 Depending on how you have the application configured, you should see the temperature measurements, a graphical gauge for temperature and humidity plus the forecast from Weather Underground (not shown). 
 
